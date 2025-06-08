@@ -1,0 +1,52 @@
+Bootstrap: docker
+From: nvidia/cuda:12.1.1-devel-ubuntu22.04
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    
+    sed -i s/http/ftp/ /etc/apt/sources.list 
+    echo 'Dir::Bin::Methods::ftp "ftp";' | tee -a /etc/apt/apt.conf.d/99local-ftp
+    apt-get update
+
+    apt-get install -y python3 python3-venv python3-pip make build-essential libssl-dev zlib1g-dev libbz2-dev \
+    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+    xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git nvidia-utils-535-server nvidia-headless-535-server nvidia-compute-utils-535-server
+    python3 --version
+
+    curl -fsSL https://pyenv.run | bash
+    export PATH="/root/.pyenv/bin:$PATH"
+    export PYENV_ROOT="/root/.pyenv"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+
+    pyenv install 3.8.6
+    pyenv global 3.8.6
+    python --version
+
+    ln -s /root/.pyenv/versions/3.8.6/bin/python /usr/local/bin/python
+    ln -s /root/.pyenv/versions/3.8.6/bin/pip /usr/local/bin/pip
+
+    pip install --upgrade pip
+    pip install -r /mnt/requirements.txt
+    pip install torch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 --index-url https://download.pytorch.org/whl/cu121
+    pip install typing_extensions==4.4.0
+    pip install sumeval
+    pip install "sacrebleu==1.5.1"
+    echo 'export PATH=$HOME/.local/bin:$PATH' >> /environment
+
+    cd /root/
+    rm -rf .cache
+    cd ./.pyenv
+    rm -rf cache
+    cd /
+    apt-get autoremove
+    apt-get clean
+    apt-get autoclean
+
+%environment
+    export PATH=/usr/bin:$PATH
+    export PYTHONUNBUFFERED=1
+    export PATH=$HOME/.local/bin:$PATH
+
+%labels
+    Author Jakub Zehner
