@@ -1,4 +1,4 @@
-# Learning Code Change Representations via Artificial Intelligence Code Model
+# RAFramework
 
 This project explores how artificial intelligence can be used to learn meaningful representations of source code changes. By leveraging a large pretrained encoder and experimenting with retrieval augmentation. The project is a part of a master's thesis in software engineering.
 

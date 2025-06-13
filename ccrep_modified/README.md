@@ -1,7 +1,7 @@
 # CCREP Experiments: Query-Back Mechanism Exploration
 
 This repository contains experiments related to the **Query Back mechanism** proposed in the paper [_CCREP: Learning Code Change Representations via the Query Back Mechanism_](https://dl.acm.org/doi/abs/10.1109/ICSE48619.2023.00014), published at ICSE 2023.
-The project builds upon the official implementation provided by the authors and serves as part of a master's thesis on **Learning Code Change Representations via Artificial Intelligence Code Model**.
+The project builds upon the official implementation provided by the authors and serves as part of a master's thesis in software engineering.
 
 ## Usage
 
